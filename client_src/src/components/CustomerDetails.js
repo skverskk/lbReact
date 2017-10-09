@@ -26,6 +26,14 @@ class CustomerDetails extends Component {
         .catch( err => console.log(err));
     }
 
+    onDelete() {
+        let customerId = this.state.details.id;
+        axios.delete(`http://localhost:3000/api/customers/${customerId}`)
+        .then( response => {
+            this.props.history.push('/');
+        }).catch(err => console.log(err));
+    }
+
     render() {
         return (
             <div>
@@ -37,7 +45,7 @@ class CustomerDetails extends Component {
                     <li className="collection-item">Address: {this.state.details.address}</li>
                 </ul>
                 <Link className="btn"  to={`/customers/edit/${this.state.details.id}`}>Edit</Link>
-                <button className="btn red right">Delete</button>
+                <button onClick={this.onDelete.bind(this)} className="btn red right">Delete</button>
                 </div>
         )
     }

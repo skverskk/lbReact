@@ -43,6 +43,25 @@ class EditCustomer extends Component {
       //  console.log(this.refs.name.value);
        e.preventDefault();
     }
+    handleInputChange(e) {
+        const target = e.target;
+        const value = target.value;
+        const name = target.name;
+        this.setState({
+            [name]: value
+        });
+    }
+
+    editCustomer(newCustomer) {
+        axios.request( {
+            method:'put',
+            url: `http://localhost:3000/api/customers/${this.state.id}`,
+            data:newCustomer
+        }).then (response => {
+            this.props.history.push('/');
+        }).catch(err => console.log(err));
+
+    }
 
     render() {
         return (
@@ -54,17 +73,20 @@ class EditCustomer extends Component {
                 <form onSubmit={this.onSubmit.bind(this)}>
                     {/* Name Input */}
                     <div className="input-field">
-                        <input type="text" name="name" ref="name" />
+                        <input type="text" name="name" ref="name" value={this.state.name} 
+                        onChange={this.handleInputChange.bind(this)} />
                         <label htmlFor="name">Name</label>
                     </div>
                      {/* City Input */}
                      <div className="input-field">
-                        <input type="text" name="city" ref="city" />
+                        <input type="text" name="city" ref="city" value={this.state.city} 
+                        onChange={this.handleInputChange.bind(this)} />
                         <label htmlFor="name">City</label>
                     </div>
                      {/* Address Input */}
                      <div className="input-field">
-                        <input type="text" name="address" ref="address" />
+                        <input type="text" name="address" ref="address" value={this.state.address} 
+                        onChange={this.handleInputChange.bind(this)} />
                         <label htmlFor="name">Address</label>
                     </div>
                     <input type="submit" value="Save" className="btn" />
